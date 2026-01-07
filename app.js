@@ -7,6 +7,10 @@ let port = process.env.PORT || 2000;
 
 const app = express();
 
+const authRoute = require('./routes/auth.routes')
+
+app.use('/api', authRoute)
+
 db.once("connection", () => {
   console.log("Database on!");
 });
