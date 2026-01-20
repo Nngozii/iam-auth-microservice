@@ -10,6 +10,9 @@ const app = express();
 const authRoute = require('./routes/auth.route')
 
 app.use("/api", authRoute);
+app.use("/", (req, res, next) => {
+  res.send("IAM Microservice")
+})
 
 //Middleware to handle the error
 app.use((err, req, res, next) => {
