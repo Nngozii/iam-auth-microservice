@@ -11,6 +11,15 @@ const authRoute = require('./routes/auth.routes')
 
 app.use('/api', authRoute)
 
+//Middleware to handle the error
+app.use(err, req, res, next => {
+  res.status(statusCode).json({
+    success: false,
+    "Status Code" : statusCode,
+    "Error message": message
+  })
+})
+
 db.once("connection", () => {
   console.log("Database on!");
 });
