@@ -7,12 +7,12 @@ let port = process.env.PORT || 2000;
 
 const app = express();
 
-const authRoute = require('./routes/auth.routes')
+const authRoute = require('./routes/auth.route')
 
-app.use('/api', authRoute)
+app.use("/api", authRoute);
 
 //Middleware to handle the error
-app.use(err, req, res, next => {
+app.use((err, req, res, next) => {
   res.status(statusCode).json({
     success: false,
     "Status Code" : statusCode,
