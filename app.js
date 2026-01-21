@@ -34,7 +34,7 @@ app.use(((err, req, res, next) => {
 //Middleware to handle the error
 app.use((error, req, res, next) => {
   const statusCode = error.statusCode || 500;
-  const message = error.message | "Internal Server Error"
+  const message = error.message || "Internal Server Error"
   res.status(statusCode).json({
     success: false,
     "Status Code" : statusCode,
