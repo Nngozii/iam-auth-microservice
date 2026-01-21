@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const { Schema } = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const userModel = new Schema(
   {
@@ -22,6 +22,7 @@ const userModel = new Schema(
     status: {
       type: String,
       enum: ["active", "suspended"],
+      default: "active",
     },
   },
   { timestamps: true }
