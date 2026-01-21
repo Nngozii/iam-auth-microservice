@@ -9,7 +9,7 @@ mongoose
     console.log("Database Connected Successfully");
   })
   .catch((err) => {
-    console.error("Error COnnecting to Database", err);
+    console.error("Error Connecting to Database", err);
   });
 
 const db = mongoose.connection;
