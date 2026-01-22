@@ -6,7 +6,6 @@ const User = require("../models/user.model");
 const errorHandler = require("../utilities/error");
 
 exports.signUp = async (req, res, next) => {
-  //get inputs
   const { email, password, confirmPassword } = req.body;
 
   //check if user already exists
@@ -16,7 +15,6 @@ exports.signUp = async (req, res, next) => {
     if (existingUser) {
       next(errorHandler(409, "User already exists"));
     } else {
-
       //if not, register user
       let hashedPassword = bcrypt.hashSync(password, 10);
 
@@ -32,6 +30,31 @@ exports.signUp = async (req, res, next) => {
 
       //send confirmation mail
     }
+  } catch (error) {
+    next(errorHandler(500, "Internal Server Error"));
+  }
+};
+
+exports.logIn = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  try {
+    //Check if user exists
+    let user = await User.findOne({ email });
+
+    //if not, ask for signup
+    if (!user) {
+      return next(errorHandler(409, "User does not exists. Please Sign up."));
+    }
+
+    //check if passwords match
+    let matchingPassword = bcrypt.compareSync(password, user.password);
+
+    if (!matchingPassword) {
+      return next(errorHandler(409, "Incorrect Password"));
+    }
+    
+    //jwt
   } catch (error) {
     next(errorHandler(500, "Internal Server Error"));
   }
