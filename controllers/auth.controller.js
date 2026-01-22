@@ -6,7 +6,7 @@ const User = require("../models/user.model");
 const errorHandler = require("../utilities/error");
 
 exports.signUp = async (req, res, next) => {
-  const { email, password, confirmPassword } = req.body;
+  const { email, password, confirmPassword, role } = req.body;
 
   //check if user already exists
   try {
@@ -21,6 +21,7 @@ exports.signUp = async (req, res, next) => {
       let newUser = new User({
         email: email,
         password: hashedPassword,
+        role: role
       });
 
       await newUser.save();
