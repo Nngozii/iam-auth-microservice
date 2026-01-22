@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", authRoute);
 app.use("/", (req, res, next) => {
-  res.send("IAM Microservice");
+  res.send("IAM Microservice. Please Sign up or Log in");
 });
 
 //Middleware to handle Joi validation error
