@@ -1,9 +1,12 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const sgTransport = require("nodemailer-sendgrid-transport");
 
 const User = require("../models/user.model");
 const errorHandler = require("../utilities/error");
+
+require("dotenv").config();
 
 exports.signUp = async (req, res, next) => {
   const { email, password, confirmPassword, role } = req.body;
@@ -21,7 +24,7 @@ exports.signUp = async (req, res, next) => {
       let newUser = new User({
         email: email,
         password: hashedPassword,
-        role: role
+        role: role,
       });
 
       await newUser.save();
@@ -54,8 +57,18 @@ exports.logIn = async (req, res, next) => {
     if (!matchingPassword) {
       return next(errorHandler(409, "Incorrect Password"));
     }
-    
+
     //jwt
+    const token = jwt.sign(
+      {
+        iat: Math.floor(Date.now()),
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_ACCESS_TOKEN,
+      { expiresIn: "1h" },
+    );
+    res.status(200).json({ message: "Login Successful", token: token });
   } catch (error) {
     next(errorHandler(500, "Internal Server Error"));
   }
