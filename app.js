@@ -7,11 +7,13 @@ let port = process.env.PORT || 2000;
 
 const app = express();
 
+const userRoute = require("./routes/user.route")
 const authRoute = require("./routes/auth.route");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api", userRoute);
 app.use("/api", authRoute);
 app.use("/", (req, res, next) => {
   res.send("IAM Microservice. Please Sign up or Log in");
